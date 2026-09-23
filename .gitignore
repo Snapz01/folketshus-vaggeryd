@@ -1,0 +1,15 @@
+.well-known/
+.env
+*.local
+
+public_html/assets/uploads/
+*.mp4
+*.mov
+
+*~
+*.bak
+.DS_Store
+Thumbs.db
+
+node_modules/
+npm-debug.log*

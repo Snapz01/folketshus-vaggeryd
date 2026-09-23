@@ -1,0 +1,834 @@
+/* --- Globala Variabler & Återställning --- */
+:root {
+  --bg-body: #121212;
+  --bg-card: #1e1e1e;
+  --text-main: #e0e0e0;
+  --text-muted: #aaaaaa;
+  --text-on-primary: #ffffff;
+  
+  --primary: #b30000;
+  --primary-light: #e60000;
+  --accent: #d4af37;
+  --accent-glow: rgba(212, 175, 55, 0.3);
+
+  --border-color: #333333;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.7);
+
+  --font-main: 'Poppins', sans-serif;
+  --transition: all 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.6;
+  font-weight: 400;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- Knappar & Kort --- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.75rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--text-on-primary);
+  box-shadow: 0 4px 15px rgba(179, 0, 0, 0.4);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(179, 0, 0, 0.6);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+
+.btn-secondary:hover {
+  background-color: var(--accent);
+  color: #121212;
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.btn-lg {
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: #444444;
+}
+
+.card-content {
+  padding: 2.5rem;
+}
+
+/* --- Header & Navigation --- */
+.main-header {
+  background-color: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1.5rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  width: 200px;
+  height: auto;
+  max-height: 90px;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-on-primary);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.3em;
+  margin-top: 2px;
+}
+
+.main-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.main-nav a {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--text-on-primary);
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: var(--transition);
+}
+
+.main-nav a:hover::after,
+.main-nav a.active::after {
+  width: 100%;
+}
+
+/* --- Hero Sektion --- */
+.hero-section {
+  position: relative;
+  min-height: 80vh;
+  background-color: #1a1a1a;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-on-primary);
+  overflow: hidden;
+  padding: 4rem 1rem;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(18, 18, 18, 1));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  word-break: break-word;
+}
+
+.hero-title .highlight {
+  color: var(--primary-light);
+  position: relative;
+}
+
+.hero-subtitle {
+  font-size: 1.35rem;
+  color: #cccccc;
+  margin-bottom: 2.2rem;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+/* --- Delad Hero-knapp --- */
+.hero-btn-group {
+  display: inline-flex;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 100%;
+}
+
+.hero-split-btn {
+  padding: 1rem 1.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-bio {
+  background-color: var(--primary);
+  color: var(--text-on-primary);
+}
+
+.btn-bio:hover {
+  background-color: var(--primary-light);
+}
+
+.btn-event {
+  background-color: rgba(26, 26, 26, 0.85);
+  backdrop-filter: blur(5px);
+  color: #ffffff;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-event:hover {
+  background-color: #2c2c2c;
+  color: var(--accent);
+}
+
+.btn-lokal {
+  background-color: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(5px);
+  color: var(--accent);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-lokal:hover {
+  background-color: var(--accent);
+  color: #121212;
+}
+
+/* --- Huvudinnehåll --- */
+.container {
+  max-width: 1100px;
+  margin: -50px auto 4rem auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 20;
+  width: 100%;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.info-card {
+  background-color: var(--bg-card);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.info-icon {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.info-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-on-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.info-card p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.info-card a {
+  color: var(--primary-light);
+}
+
+.info-card a:hover {
+  text-decoration: underline;
+}
+
+/* Om-sektion */
+.about-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: var(--text-on-primary);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary);
+}
+
+.lead {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+
+.cinema-text {
+  color: #E8DCC8;
+  font-weight: 600;
+}
+
+.about-section p {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+/* Bildsektion */
+.image-container {
+  margin: 3rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.image-container img {
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  max-width: 100%;
+}
+
+/* Biljett-inforuta */
+.ticket-info-box {
+  background: linear-gradient(135deg, #1e1e1e 0%, #2a0000 100%);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 0rem;
+  box-shadow: 0 0 20px rgba(179, 0, 0, 0.3);
+}
+
+.ticket-icon-big {
+  font-size: 3rem;
+  color: var(--accent);
+  transform: rotate(-15deg);
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+}
+
+.ticket-text h3 {
+  color: var(--text-on-primary);
+  margin-bottom: 0.5rem;
+}
+
+.ticket-text p {
+  color: #cccccc;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* --- Bioprogram Sektion & Filmkort --- */
+#bioprogram {
+  padding: 40px 1rem;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.bioprogram-alert {
+  background: #1e1e1e;
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.bioprogram-alert strong {
+  color: var(--text-on-primary);
+}
+
+#movieGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.movie-card {
+  background: #141414;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+}
+
+.movie-card:hover {
+  transform: translateY(-4px);
+  border-color: #555555;
+  box-shadow: var(--shadow-lg);
+}
+
+.movie-poster-wrap {
+  position: relative;
+  height: 380px;
+  background: #000000;
+}
+
+.movie-poster-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.movie-poster-img {
+  cursor: zoom-in;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.movie-poster-img:hover {
+  filter: brightness(1.08);
+}
+
+.movie-poster-img:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.movie-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--primary-light);
+  color: #ffffff;
+  padding: 6px 10px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.movie-card-body {
+  padding: 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-title {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  color: var(--text-on-primary);
+}
+
+.movie-meta {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.movie-price {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.movie-desc {
+  color: #aaaaaa;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+  flex: 1;
+}
+
+/* --- Trailer Overlay & Play-knapp --- */
+.trailer-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-decoration: none;
+  pointer-events: none;
+}
+
+.trailer-play-icon {
+  width: 58px;
+  height: 58px;
+  background: rgba(179, 0, 0, 0.9);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.4rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px var(--accent-glow);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  pointer-events: auto;
+}
+
+.trailer-play-icon i {
+  margin-left: 4px;
+}
+
+.movie-poster-wrap:hover .trailer-overlay {
+  opacity: 1;
+}
+
+.movie-poster-wrap:hover .trailer-play-icon {
+  transform: scale(1.15);
+  background: var(--primary-light);
+}
+
+/* --- Poster Dialog Modal --- */
+.poster-modal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: auto;
+  overflow: visible;
+}
+
+.poster-modal::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+}
+
+.poster-modal img {
+  display: block;
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  margin: auto;
+  border-radius: 6px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-close {
+  position: absolute;
+  top: -45px;
+  right: -5px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 2.2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  color: var(--primary-light);
+  transform: scale(1.15);
+}
+
+/* --- Footer --- */
+.main-footer {
+  background-color: #0a0a0a;
+  border-top: 1px solid var(--border-color);
+  padding: 3rem 1.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-welcome {
+  font-weight: 600;
+  color: var(--text-on-primary);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-copy {
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.footer-social a:hover {
+  color: var(--primary-light);
+  transform: scale(1.1);
+}
+
+/* --- Responsivitet --- */
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 2.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Navigation & Header */
+  .nav-container {
+    flex-direction: column;
+    padding: 0.75rem 1rem;
+  }
+
+  .logo {
+    margin-bottom: 0.5rem;
+  }
+
+  .logo-icon {
+    width: 160px;
+    height: auto;
+  }
+
+  .main-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 0.85rem;
+    padding: 0;
+  }
+
+  .main-nav a {
+    font-size: 0.95rem;
+    padding: 0.25rem 0.2rem;
+  }
+
+  /* Hero-sektion */
+  .hero-section {
+    min-height: auto;
+    padding: 3rem 1rem 3.5rem 1rem;
+    background-attachment: scroll; /* Bättre prestanda på mobil */
+  }
+
+  .hero-title {
+    font-size: 1.85rem;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 1.75rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Stapla de tre knapparna på mobil så de inte skärs av */
+  .hero-btn-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+
+  .hero-split-btn {
+    width: 100%;
+    border-left: none !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.9rem 1.25rem;
+  }
+
+  .hero-split-btn:first-child {
+    border-top: none;
+  }
+
+  /* Huvudinnehåll */
+  .container {
+    margin: 1.5rem auto 3rem auto;
+    padding: 0 1rem;
+  }
+
+  .ticket-info-box {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .ticket-icon-big {
+    font-size: 2.5rem;
+    transform: none;
+  }
+
+  /* Mobiljustering för trailerknapp */
+  .trailer-overlay {
+    opacity: 1;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .trailer-play-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+    background: rgba(0, 0, 0, 0.75);
+    pointer-events: auto;
+  }
+
+  .modal-close {
+    top: -40px;
+    right: 0;
+    font-size: 2rem;
+  }
+}

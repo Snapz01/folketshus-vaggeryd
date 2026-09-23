@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q73NGG5KJJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Q73NGG5KJJ');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Folkets Hus Vaggeryd | Din Biograf & Mötesplats</title>
+
+  <link rel="icon" type="image/png" href="assets/loga3.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Begränsning av filmbeskrivning och Läs mer-funktion */
+    .movie-desc {
+      color: #aaaaaa;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0 0 6px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .movie-desc.expanded {
+      display: block;
+      -webkit-line-clamp: unset;
+      overflow: visible;
+    }
+
+    .btn-read-more {
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 12px;
+      align-self: flex-start;
+      display: inline-block;
+      transition: color 0.2s;
+    }
+
+    .btn-read-more:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img class="logo-icon" src="assets/loga.png" alt="Folkets Hus Vaggeryd">
+        <span class="logo-text">Folkets Hus <span class="logo-sub">Vaggeryd</span></span>
+      </a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="/">Hem</a></li>
+          <li><a href="/about">Historia</a></li>
+          <li><a href="/event">Event</a></li>
+          <li><a href="/lokal">Hyra Lokal</a></li>
+          <li><a href="/#bioprogram">Bio</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+<section class="hero-section" style="background-image: url('images/hero-bg.jpg');">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">Upplev Magin i <br> <span class="highlight">Folkets Hus Vaggeryd</span></h1>
+      <p class="hero-subtitle">Din lokala biograf, konferens och festlokal – sedan 1917.</p>
+      
+      <div class="hero-btn-group">
+        <a href="#bioprogram" class="hero-split-btn btn-bio">
+          <i class="fas fa-film"></i> Se Bioprogrammet
+        </a>
+        <a href="event.html" class="hero-split-btn btn-event">
+          <i class="fas fa-calendar-alt"></i> Kommande Events
+        </a>
+        <a href="lokal.html" class="hero-split-btn btn-lokal">
+          <i class="fas fa-building"></i> Hyra Lokal
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <main class="container">
+
+    <section class="info-grid">
+      <div class="info-card">
+        <i class="fas fa-clock info-icon"></i>
+        <h4>Telefontider</h4>
+        <p>Mån – Fre: 08:00–12:00, 13:00–16:00</p>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-map-marker-alt info-icon"></i>
+        <h4>Besöksadress</h4>
+        <p>
+          <a href="https://maps.app.goo.gl/meGwN6jdxDKCdg3U8" target="_blank" rel="noopener noreferrer">
+            Götaforsvägen 8<br>567 31 Vaggeryd
+          </a>
+        </p>
+      </div>
+      <div class="info-card">
+        <i class="fas fa-envelope info-icon"></i>
+        <h4>Kontakt</h4>
+        <p>Tel: <a href="tel:0703438034">070-343 80 34</a><br>
+        E-post: <a href="mailto:info@folketshusvaggeryd.se">info@folketshusvaggeryd.se</a></p>
+      </div>
+    </section>
+
+    <section class="about-section card">
+      <div class="card-content">
+        <h3 class="section-title">Välkommen till Folkets Hus</h3>
+        <p class="lead">Folkets Hus har funnits sedan 1917 och drivs av Byggnadsföreningen Framåt. Vi är en levande mötesplats tillgänglig för alla i Vaggeryds kommun.</p>
+        <p>
+          I våra moderna lokaler erbjuder vi allt från <strong class="cinema-text">bioupplevelser och konserter till konferenser, utställningar och föreningsverksamhet</strong>. Vi är stolta över att vara värdar för kommunfullmäktigemöten och en mängd kulturevenemang.
+        </p>
+      </div>
+    </section>
+
+    <div class="image-container" style="margin: 30px 0; text-align: center;">
+      <img src="assets/image.jpg" alt="Folkets Hus Vaggeryd" style="max-width: 100%; border-radius: 8px;"> 
+    </div>
+
+    <section class="ticket-info-box">
+      <i class="fas fa-ticket-alt ticket-icon-big"></i>
+      <div class="ticket-text">
+        <h3>Viktig Biljettinformation</h3>
+        <p>Ingen förbokning av biobiljetter behövs. Kassan öppnar alltid en timme före föreställningen. Välkomna!</p>
+      </div>
+    </section>
+
+    <!-- Bioprogram Sektion -->
+    <section id="bioprogram">
+      <div class="bioprogram-alert">
+        <strong>Bra att veta:</strong> Kassan öppnar 1 timme innan föreställning. Ingen förbokning av biljetter – betalning sker på plats.
+      </div>
+
+      <div id="movieGrid">
+        <!-- Renderas dynamiskt med JS från movies.json -->
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-container">
+      <p class="footer-welcome">Välkomna till oss på Folkets Hus!</p>
+
+      <div class="footer-social">
+        <a href="https://www.facebook.com/p/Folkets-Hus-Vaggeryd-100037207526113/?locale=sv_SE" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           aria-label="Folkets Hus på Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">
+          © 2026 Folkets Hus Vaggeryd · <a href="integritet.html">Integritetspolicy</a>
+        </p>
+        <p class="footer-credit">Developed and maintained by Timmy @ Edqvistit</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Trailer Modal -->
+  <dialog id="trailerModal">
+    <button id="trailerCloseBtn" class="trailer-close-btn" aria-label="Stäng trailer">&times;</button>
+    <div class="trailer-dialog-container">
+      <iframe id="trailerFrame" src="" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </dialog>
+
+  <script>
+    const trailerModal = document.getElementById('trailerModal');
+    const trailerFrame = document.getElementById('trailerFrame');
+    const trailerCloseBtn = document.getElementById('trailerCloseBtn');
+
+    // Konverterar standard YouTube-länkar till embed-format med autoplay
+    function getEmbedUrl(url) {
+      if (!url) return '';
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) 
+        ? `https://www.youtube-nocookie.com/embed/${match[2]}?autoplay=1&rel=0` 
+        : url;
+    }
+
+    function openTrailer(url) {
+      trailerFrame.src = getEmbedUrl(url);
+      trailerModal.showModal();
+    }
+
+    function closeTrailer() {
+      trailerModal.close();
+      trailerFrame.src = ''; // Stoppar videouppspelning omedelbart
+    }
+
+    trailerCloseBtn.addEventListener('click', closeTrailer);
+
+    trailerModal.addEventListener('click', (e) => {
+      const rect = trailerModal.getBoundingClientRect();
+      const clickedOutside = 
+        e.clientX < rect.left || 
+        e.clientX > rect.right || 
+        e.clientY < rect.top || 
+        e.clientY > rect.bottom;
+      if (clickedOutside) closeTrailer();
+    });
+
+    trailerModal.addEventListener('cancel', () => {
+      trailerFrame.src = ''; // Fångar Escape-tangenten
+    });
+
+    function toggleDesc(btn) {
+      const desc = btn.previousElementSibling;
+      const isExpanded = desc.classList.toggle('expanded');
+      btn.textContent = isExpanded ? 'Visa mindre' : 'Läs mer...';
+    }
+
+    async function renderProgram() {
+      const grid = document.getElementById('movieGrid');
+      try {
+        const res = await fetch('/api/movies');
+        const movies = await res.json();
+
+        if (!Array.isArray(movies) || movies.length === 0) {
+          grid.innerHTML = '<p style="color: #777; grid-column: 1/-1; text-align: center;">Just nu finns inga planerade visningar.</p>';
+          return;
+        }
+
+        grid.innerHTML = movies.map(m => {
+          const desc = m.description || 'Ingen beskrivning tillgänglig.';
+          const isLong = desc.length > 130;
+
+          return `
+            <div class="movie-card">
+              <div class="movie-poster-wrap">
+                ${m.posterUrl ? `<img src="${m.posterUrl}" alt="${m.displayTitle}">` : '<div style="height: 100%; display: flex; align-items: center; justify-content: center; color: #444;">Affisch saknas</div>'}
+                
+                <div class="movie-badge">
+                  ${m.date} • ${m.time}
+                </div>
+
+                ${m.trailerUrl ? `
+                  <button type="button" class="trailer-overlay" title="Se Trailer" onclick="openTrailer('${m.trailerUrl}')">
+                    <div class="trailer-play-icon">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </button>
+                ` : ''}
+              </div>
+              
+              <div class="movie-card-body">
+                <h3 class="movie-title">${m.displayTitle}</h3>
+                
+                <div class="movie-meta">
+                  ${m.runtime ? `${m.runtime} min • ` : ''}${m.ageLimit} • <span class="movie-price">${m.price} kr</span>
+                </div>
+                
+                <p class="movie-desc">${desc}</p>
+                ${isLong ? `<button type="button" class="btn-read-more" onclick="toggleDesc(this)">Läs mer...</button>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        grid.innerHTML = '<p style="color: #e50914; margin: 70px 0 0 0; background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border-color); grid-column: 1/-1; text-align: center;">Inga filmer tillgängliga just nu.</p>';
+      }
+    }
+
+    renderProgram();
+  </script>
+  
+  <script src="script.js" defer></script>
+</body>
+</html>

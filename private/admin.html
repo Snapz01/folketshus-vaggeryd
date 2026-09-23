@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Folkan Vaggeryd</title>
+  <link rel="icon" type="image/png" href="assets/loga3.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #121212;
+      color: #eee;
+      padding: 30px;
+      margin: 0;
+    }
+    .admin-header {
+      max-width: 1200px;
+      margin: 0 auto 20px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+      padding-bottom: 15px;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+    }
+    .tab-btn {
+      background: #222;
+      border: 1px solid #444;
+      color: #aaa;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: #b30000;
+      color: #fff;
+      border-color: #b30000;
+      font-weight: bold;
+    }
+    .tab-content {
+      display: none;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .tab-content.active {
+      display: flex;
+    }
+    .panel {
+      background: #1e1e1e;
+      padding: 24px;
+      border-radius: 8px;
+      flex: 1;
+      min-width: 320px;
+      max-width: 580px;
+      border: 1px solid #333;
+      box-sizing: border-box;
+    }
+    .panel-full {
+      max-width: 100%;
+      width: 100%;
+    }
+    input, select, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 12px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 4px;
+      font-family: inherit;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .btn-red { background: #e50914; color: #fff; padding: 10px 16px; }
+    .btn-green { background: #28a745; color: #fff; padding: 12px; width: 100%; font-size: 1rem; transition: background 0.2s; }
+    .btn-green:hover { background: #218838; }
+    .btn-blue { background: #0066cc; color: #fff; padding: 6px 10px; }
+    .btn-blue:hover { background: #0052a3; }
+    .btn-gray { background: #555; color: #fff; padding: 6px 10px; }
+    .btn-gray:hover { background: #666; }
+    .btn-cancel { background: #444; color: #ccc; padding: 10px; width: 100%; margin-top: 8px; font-size: 0.9rem; }
+    .btn-cancel:hover { background: #555; color: #fff; }
+    
+    .row { display: flex; gap: 12px; }
+    .row > div { flex: 1; }
+    
+    .list-item {
+      background: #2a2a2a;
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .list-item-actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    
+    .alert-box {
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      display: none;
+      line-height: 1.4;
+    }
+    .alert-box.error {
+      display: block;
+      background: rgba(229, 9, 20, 0.15);
+      border: 1px solid #e50914;
+      color: #ff8080;
+    }
+    .alert-box.success {
+      display: block;
+      background: rgba(40, 167, 69, 0.15);
+      border: 1px solid #28a745;
+      color: #85e89d;
+    }
+
+    .mode-toggle-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+    }
+    .mode-btn {
+      flex: 1;
+      padding: 9px 12px;
+      background: #2d2d2d;
+      color: #bbb;
+      border: 1px solid #444;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: #e50914;
+      color: #fff;
+      border-color: #e50914;
+    }
+
+    .drop-zone {
+      border: 2px dashed #555;
+      border-radius: 6px;
+      padding: 18px;
+      text-align: center;
+      background: #1a1a1a;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .drop-zone.dragover {
+      border-color: #e50914;
+      background: #2a1515;
+    }
+    .drop-zone i {
+      font-size: 1.8rem;
+      color: #888;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .drop-zone p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    .preview-img {
+      max-height: 120px;
+      border-radius: 4px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    /* Galleri Grid & Drag-and-Drop */
+    .gallery-admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 15px;
+    }
+    .gallery-admin-card {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .gallery-admin-card:active {
+      cursor: grabbing;
+    }
+    .gallery-admin-card.sortable-ghost {
+      opacity: 0.35;
+      background: #111;
+      border: 2px dashed #e50914;
+    }
+    .gallery-admin-card.sortable-chosen {
+      border-color: #e50914;
+      transform: scale(1.03);
+    }
+    .gallery-admin-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      background: #000;
+      pointer-events: none;
+    }
+    .gallery-admin-footer {
+      padding: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #222;
+      gap: 6px;
+    }
+    .gallery-drag-handle {
+      color: #666;
+      font-size: 0.85rem;
+      padding-right: 4px;
+    }
+    .gallery-admin-card:hover .gallery-drag-handle {
+      color: #bbb;
+    }
+    .gallery-admin-filename {
+      font-size: 0.75rem;
+      color: #aaa;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <h1>Folkan Adminpanel</h1>
+    <div class="nav-tabs">
+      <button type="button" class="tab-btn active" onclick="switchTab('bio')"><i class="fas fa-film"></i> Bio & Filmer</button>
+      <button type="button" class="tab-btn" onclick="switchTab('event')"><i class="fas fa-calendar-alt"></i> Events</button>
+      <button type="button" class="tab-btn" onclick="switchTab('gallery')"><i class="fas fa-images"></i> Galleri Lokaler</button>
+    </div>
+  </div>
+
+  <!-- ================= FLIK: BIO ================= -->
+  <div id="tab-bio" class="tab-content active">
+    <div class="panel">
+      <h2 id="movieFormHeading">Lägg till filmvisning</h2>
+      <div id="movieAlert" class="alert-box"></div>
+
+      <div id="wikiSearchGroup">
+        <label>1. Sök på Wikipedia:</label>
+        <div style="display: flex; gap: 8px; margin-top: 5px; margin-bottom: 10px;">
+          <input type="text" id="searchTitle" placeholder="T.ex. Inception" style="margin: 0;">
+          <button type="button" class="btn-red" onclick="fetchWikipedia()">Hämta</button>
+        </div>
+        <small id="statusText" style="color: #bbb; display: block; margin-bottom: 15px;"></small>
+      </div>
+
+      <form id="movieForm" onsubmit="saveMovie(event)">
+        <input type="hidden" id="movieId" value="">
+
+        <label>Svensk visningstitel:</label>
+        <input type="text" id="displayTitle" required placeholder="Titel som visas på sajten">
+
+        <div class="row">
+          <div>
+            <label>Datum:</label>
+            <input type="date" id="date" required>
+          </div>
+          <div>
+            <label>Klockslag:</label>
+            <input type="time" id="time" required>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Speltid (min):</label>
+            <input type="number" id="runtime" placeholder="90">
+          </div>
+          <div>
+            <label>Pris (kr):</label>
+            <input type="number" id="price" value="100" required>
+          </div>
+          <div>
+            <label>Ålder:</label>
+            <select id="ageLimit">
+              <option value="Barntillåten">BT</option>
+              <option value="Från 7 år">7 år</option>
+              <option value="Från 11 år">11 år</option>
+              <option value="Från 15 år">15 år</option>
+            </select>
+          </div>
+        </div>
+
+        <label>Handling / Beskrivning:</label>
+        <textarea id="description" rows="3"></textarea>
+
+        <label>Affischbild:</label>
+        <div class="drop-zone" id="movieDropZone" onclick="document.getElementById('movieFileInput').click()">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <p>Dra & släpp bild här, eller <u>bläddra fil</u></p>
+          <input type="file" id="movieFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(this.files[0], 'posterUrl', 'moviePreview', 'movieAlert')">
+          <img id="moviePreview" class="preview-img" alt="Förhandsgranskning">
+        </div>
+
+        <label>Eller bildlänk (URL):</label>
+        <input type="text" id="posterUrl" placeholder="https://..." oninput="updatePreviewFromUrl(this.value, 'moviePreview')">
+
+        <label>Trailer (valfritt) <br><small style="color:#aaa;">Format: YouTube eller fil (.mp4/.webm max 220 MB)</small></label>
+        <div class="mode-toggle-group">
+          <button type="button" id="trailerTypeYt" class="mode-btn active" onclick="setTrailerMode('yt')">
+            <i class="fab fa-youtube"></i> YouTube-länk
+          </button>
+          <button type="button" id="trailerTypeFile" class="mode-btn" onclick="setTrailerMode('file')">
+            <i class="fas fa-file-video"></i> Ladda upp videofil
+          </button>
+        </div>
+
+        <div id="trailerYtContainer">
+          <input type="text" id="trailerUrl" placeholder="https://www.youtube.com/watch?v=...">
+        </div>
+
+        <div id="trailerFileContainer" style="display: none;">
+          <div class="drop-zone" id="trailerDropZone" onclick="document.getElementById('trailerFileInput').click()">
+            <i class="fas fa-video"></i>
+            <p>Dra & släpp trailer (.mp4/.webm) här, eller <u>bläddra fil</u></p>
+            <input type="file" id="trailerFileInput" accept="video/mp4,video/webm" style="display: none;" onchange="handleTrailerUpload(this.files[0])">
+          </div>
+          <small id="trailerUploadStatus" style="color: #bbb; display: block; margin-bottom: 12px;"></small>
+        </div>
+
+        <button type="submit" id="movieSubmitBtn" class="btn-green">Publicera i bioprogrammet</button>
+        <button type="button" id="movieCancelBtn" class="btn-cancel" style="display: none;" onclick="cancelEditMovie()">Avbryt redigering</button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>Aktuellt program</h2>
+      <div id="movieList">Laddar visningar...</div>
+    </div>
+  </div>
+
+  <!-- ================= FLIK: EVENT ================= -->
+  <div id="tab-event" class="tab-content">
+    <div class="panel">
+      <h2 id="eventFormHeading">Lägg till kommande event</h2>
+      <div id="eventAlert" class="alert-box"></div>
+
+      <form id="eventForm" onsubmit="saveEvent(event)">
+        <input type="hidden" id="eventId" value="">
+
+        <label>Eventets rubrik / namn:</label>
+        <input type="text" id="eventTitle" required placeholder="T.ex. Musikquiz, Teater, Konsert">
+
+        <div class="row">
+          <div>
+            <label>Datum:</label>
+            <input type="date" id="eventDate" required>
+          </div>
+          <div>
+            <label>Klockslag (valfritt):</label>
+            <input type="time" id="eventTime">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>Plats / Sal:</label>
+            <input type="text" id="eventLocation" placeholder="T.ex. Stora Salen">
+          </div>
+          <div>
+            <label>Entré / Pris (valfritt):</label>
+            <input type="text" id="eventPrice" placeholder="T.ex. Fri entré eller 150 kr">
+          </div>
+        </div>
+
+        <label>Information / Text om eventet:</label>
+        <textarea id="eventDescription" rows="4" required placeholder="Beskriv vad som händer..."></textarea>
+
+        <label>Eventbild / Affisch (valfritt):</label>
+        <div class="drop-zone" id="eventDropZone" onclick="document.getElementById('eventFileInput').click()">
+          <i class="fas fa-image"></i>
+          <p>Dra & släpp eventbild här, eller <u>klicka för att välja fil</u></p>
+          <input type="file" id="eventFileInput" accept="image/*" style="display: none;" onchange="handleFileSelect(this.files[0], 'eventImageUrl', 'eventPreview', 'eventAlert')">
+          <img id="eventPreview" class="preview-img" alt="Förhandsgranskning">
+        </div>
+
+        <label>Eller bildlänk (URL):</label>
+        <input type="text" id="eventImageUrl" placeholder="https://..." oninput="updatePreviewFromUrl(this.value, 'eventPreview')">
+
+        <button type="submit" id="eventSubmitBtn" class="btn-green">Publicera Event</button>
+        <button type="button" id="eventCancelBtn" class="btn-cancel" style="display: none;" onclick="cancelEditEvent()">Avbryt redigering</button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>Kommande Events</h2>
+      <div id="eventList">Laddar events...</div>
+    </div>
+  </div>
+
+  <!-- ================= FLIK: GALLERI LOKALER ================= -->
+  <div id="tab-gallery" class="tab-content">
+    <div class="panel panel-full">
+      <h2>Hantera bilder i Lokalgalleriet</h2>
+      <p style="color: #aaa; font-size: 0.9rem; margin-top: 4px;">Dra och släpp bilderna direkt i gridden för att ändra deras ordning. Ändringen sparas automatiskt.</p>
+
+      <div id="galleryAlert" class="alert-box"></div>
+
+      <!-- Uppladdningszon för galleri -->
+      <div class="drop-zone" id="galleryDropZone" onclick="document.getElementById('galleryFileInput').click()" style="margin-top: 15px;">
+        <i class="fas fa-images"></i>
+        <p>Dra & släpp nya bilder till galleriet här, eller <u>klicka för att ladda upp</u></p>
+        <input type="file" id="galleryFileInput" accept="image/*" multiple style="display: none;" onchange="handleGalleryUpload(this.files)">
+      </div>
+      <small id="galleryUploadStatus" style="color: #bbb; display: block; margin-bottom: 15px;"></small>
+
+      <h3>Befintliga bilder i galleriet</h3>
+      <div id="galleryGrid" class="gallery-admin-grid">Laddar bilder...</div>
+    </div>
+  </div>
+
+  <script>
+    let globalMovies = [];
+    let globalEvents = [];
+    let sortableGalleryInstance = null;
+
+    function showAlert(elementId, message, type = 'error') {
+      const box = document.getElementById(elementId);
+      if (!box) return;
+      box.className = `alert-box ${type}`;
+      box.innerHTML = message;
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function clearAlert(elementId) {
+      const box = document.getElementById(elementId);
+      if (!box) return;
+      box.className = 'alert-box';
+      box.innerHTML = '';
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tab === 'bio') {
+        document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+        document.getElementById('tab-bio').classList.add('active');
+      } else if (tab === 'event') {
+        document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+        document.getElementById('tab-event').classList.add('active');
+      } else if (tab === 'gallery') {
+        document.querySelector('.tab-btn:nth-child(3)').classList.add('active');
+        document.getElementById('tab-gallery').classList.add('active');
+        loadGallery();
+      }
+    }
+
+    function setTrailerMode(mode) {
+      const ytBtn = document.getElementById('trailerTypeYt');
+      const fileBtn = document.getElementById('trailerTypeFile');
+      const ytBox = document.getElementById('trailerYtContainer');
+      const fileBox = document.getElementById('trailerFileContainer');
+
+      if (mode === 'yt') {
+        ytBtn.classList.add('active');
+        fileBtn.classList.remove('active');
+        ytBox.style.display = 'block';
+        fileBox.style.display = 'none';
+      } else {
+        fileBtn.classList.add('active');
+        ytBtn.classList.remove('active');
+        ytBox.style.display = 'none';
+        fileBox.style.display = 'block';
+      }
+    }
+
+    function setupDragAndDrop(zoneId, inputId, onDropHandler) {
+      const zone = document.getElementById(zoneId);
+      if (!zone) return;
+
+      ['dragenter', 'dragover'].forEach(name => {
+        zone.addEventListener(name, (e) => {
+          e.preventDefault();
+          zone.classList.add('dragover');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(name => {
+        zone.addEventListener(name, (e) => {
+          e.preventDefault();
+          zone.classList.remove('dragover');
+        });
+      });
+
+      zone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) onDropHandler(files);
+      });
+    }
+
+    setupDragAndDrop('movieDropZone', 'movieFileInput', (files) => handleFileSelect(files[0], 'posterUrl', 'moviePreview', 'movieAlert'));
+    setupDragAndDrop('eventDropZone', 'eventFileInput', (files) => handleFileSelect(files[0], 'eventImageUrl', 'eventPreview', 'eventAlert'));
+    setupDragAndDrop('trailerDropZone', 'trailerFileInput', (files) => handleTrailerUpload(files[0]));
+    setupDragAndDrop('galleryDropZone', 'galleryFileInput', (files) => handleGalleryUpload(files));
+
+    function updatePreviewFromUrl(url, previewId) {
+      const img = document.getElementById(previewId);
+      if (url && url.trim().length > 5) {
+        img.src = url;
+        img.style.display = 'block';
+      } else {
+        img.style.display = 'none';
+      }
+    }
+
+    async function handleFileSelect(file, targetInputUrlId, previewImgId, alertBoxId) {
+      if (!file) return;
+      clearAlert(alertBoxId);
+
+      if (!file.type.startsWith('image/')) {
+        showAlert(alertBoxId, '<strong>Fel filtyp:</strong> Du kan endast ladda upp bildfiler (JPG, PNG, WEBP).');
+        return;
+      }
+
+      const preview = document.getElementById(previewImgId);
+      const targetInput = document.getElementById(targetInputUrlId);
+      const submitBtn = targetInputUrlId === 'posterUrl' ? document.getElementById('movieSubmitBtn') : document.getElementById('eventSubmitBtn');
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.5';
+        submitBtn.textContent = 'Laddar upp bild...';
+      }
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+
+        try {
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              imageBase64: reader.result,
+              fileName: file.name
+            })
+          });
+
+          if (!res.ok) {
+            let errorMsg = `Kunde inte spara bilden (Status: ${res.status})`;
+            if (res.status === 413) errorMsg = 'Bilden är för stor för servern.';
+            if (res.status === 401) errorMsg = 'Ej behörig eller utloggad.';
+            throw new Error(errorMsg);
+          }
+
+          const data = await res.json();
+          if (data.url) {
+            targetInput.value = data.url;
+          } else {
+            throw new Error('Servern returnerade ingen giltig bild-URL.');
+          }
+        } catch (err) {
+          showAlert(alertBoxId, `<strong>Uppladdningsfel:</strong> ${err.message}`);
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            const isMovie = targetInputUrlId === 'posterUrl';
+            const isEditing = isMovie ? !!document.getElementById('movieId').value : !!document.getElementById('eventId').value;
+            submitBtn.textContent = isEditing ? 'Spara ändringar' : (isMovie ? 'Publicera i bioprogrammet' : 'Publicera Event');
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function handleTrailerUpload(file) {
+      if (!file) return;
+      const status = document.getElementById('trailerUploadStatus');
+      const submitBtn = document.getElementById('movieSubmitBtn');
+      clearAlert('movieAlert');
+
+      const validVideoTypes = ['video/mp4', 'video/webm'];
+      if (!validVideoTypes.includes(file.type)) {
+        showAlert('movieAlert', '<strong>Fel videoformat:</strong> Endast .mp4 och .webm stöds.');
+        return;
+      }
+
+      if (file.size > 220 * 1024 * 1024) {
+        status.textContent = '';
+        showAlert('movieAlert', '<strong>Filen är för stor:</strong> Maxgränsen är 220 MB. Använd en YouTube-länk istället.');
+        return;
+      }
+
+      status.textContent = 'Laddar upp video... Detta kan ta en liten stund.';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.5';
+        submitBtn.textContent = 'Laddar upp videofil...';
+      }
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        try {
+          const res = await fetch('/api/upload', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              imageBase64: reader.result,
+              fileName: file.name
+            })
+          });
+
+          if (!res.ok) {
+            let errorMsg = `Status ${res.status}`;
+            if (res.status === 413) errorMsg = 'Filen överskrider serverns gräns (max 220 MB).';
+            if (res.status === 401) errorMsg = 'Ej behörig / utloggad.';
+            throw new Error(errorMsg);
+          }
+
+          const data = await res.json();
+          if (data.url) {
+            document.getElementById('trailerUrl').value = data.url;
+            status.textContent = 'Uppladdning klar: ' + file.name;
+          } else {
+            throw new Error('Servern returnerade inget fildata.');
+          }
+        } catch (e) {
+          status.textContent = '';
+          showAlert('movieAlert', `<strong>Fel vid uppladdning av trailer:</strong> ${e.message}`);
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            const isEditing = !!document.getElementById('movieId').value;
+            submitBtn.textContent = isEditing ? 'Spara ändringar' : 'Publicera i bioprogrammet';
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // --- BIO-FUNKTIONER ---
+    async function fetchWikipedia() {
+      const q = document.getElementById('searchTitle').value.trim();
+      const status = document.getElementById('statusText');
+      if (!q) return;
+
+      status.textContent = 'Söker på svenska Wikipedia...';
+      clearAlert('movieAlert');
+
+      try {
+        const slug = encodeURIComponent(q.replace(/\s+/g, '_'));
+        const res = await fetch(`https://sv.wikipedia.org/api/rest_v1/page/summary/${slug}`);
+        if (!res.ok) throw new Error('Ingen artikel');
+        const data = await res.json();
+
+        document.getElementById('displayTitle').value = data.title;
+        document.getElementById('description').value = data.extract || '';
+        if (data.thumbnail && data.thumbnail.source) {
+          document.getElementById('posterUrl').value = data.thumbnail.source;
+          updatePreviewFromUrl(data.thumbnail.source, 'moviePreview');
+        }
+        status.textContent = 'Information hämtad. Komplettera datum och tid.';
+      } catch (e) {
+        status.textContent = 'Hittade inte filmen automatiskt. Fyll i manuellt.';
+      }
+    }
+
+    async function loadMovies() {
+      try {
+        const res = await fetch('/api/movies');
+        if (!res.ok) throw new Error(`HTTP-kod ${res.status}`);
+        globalMovies = await res.json();
+        const container = document.getElementById('movieList');
+        container.innerHTML = '';
+
+        if (!Array.isArray(globalMovies) || globalMovies.length === 0) {
+          container.innerHTML = '<p style="color:#777;">Inga visningar inlagda.</p>';
+          return;
+        }
+
+        globalMovies.forEach(m => {
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            <div>
+              <strong>${m.displayTitle}</strong><br>
+              <small style="color:#aaa;">${m.date} kl ${m.time} | ${m.price} kr</small>
+            </div>
+            <div class="list-item-actions">
+              <button type="button" class="btn-blue" onclick="startEditMovie('${m.id}')"><i class="fas fa-edit"></i> Redigera</button>
+              <button type="button" class="btn-gray" onclick="deleteMovie('${m.id}')"><i class="fas fa-trash"></i></button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        document.getElementById('movieList').innerHTML = `<p style="color:#e50914;">Kunde inte ladda programmet: ${err.message}</p>`;
+      }
+    }
+
+    function startEditMovie(id) {
+      const movie = globalMovies.find(m => String(m.id) === String(id));
+      if (!movie) return;
+
+      clearAlert('movieAlert');
+      document.getElementById('movieId').value = movie.id;
+      document.getElementById('displayTitle').value = movie.displayTitle || '';
+      document.getElementById('date').value = movie.date || '';
+      document.getElementById('time').value = movie.time || '';
+      document.getElementById('runtime').value = movie.runtime || '';
+      document.getElementById('price').value = movie.price || '100';
+      document.getElementById('ageLimit').value = movie.ageLimit || 'Barntillåten';
+      document.getElementById('description').value = movie.description || '';
+      document.getElementById('posterUrl').value = movie.posterUrl || '';
+      updatePreviewFromUrl(movie.posterUrl || '', 'moviePreview');
+
+      document.getElementById('trailerUrl').value = movie.trailerUrl || '';
+      if (movie.trailerUrl && (movie.trailerUrl.includes('/uploads/') || movie.trailerUrl.endsWith('.mp4') || movie.trailerUrl.endsWith('.webm'))) {
+        setTrailerMode('file');
+      } else {
+        setTrailerMode('yt');
+      }
+
+      document.getElementById('movieFormHeading').textContent = `Redigera: ${movie.displayTitle}`;
+      document.getElementById('movieSubmitBtn').textContent = 'Spara ändringar';
+      document.getElementById('movieCancelBtn').style.display = 'block';
+
+      document.getElementById('movieForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function cancelEditMovie() {
+      document.getElementById('movieForm').reset();
+      document.getElementById('movieId').value = '';
+      document.getElementById('posterUrl').value = '';
+      document.getElementById('trailerUrl').value = '';
+      document.getElementById('moviePreview').style.display = 'none';
+      document.getElementById('statusText').textContent = '';
+      document.getElementById('trailerUploadStatus').textContent = '';
+      setTrailerMode('yt');
+
+      document.getElementById('movieFormHeading').textContent = 'Lägg till filmvisning';
+      document.getElementById('movieSubmitBtn').textContent = 'Publicera i bioprogrammet';
+      document.getElementById('movieCancelBtn').style.display = 'none';
+      clearAlert('movieAlert');
+    }
+
+    async function saveMovie(e) {
+      e.preventDefault();
+      clearAlert('movieAlert');
+
+      const id = document.getElementById('movieId').value;
+      const payload = {
+        id: id || undefined,
+        displayTitle: document.getElementById('displayTitle').value.trim(),
+        date: document.getElementById('date').value,
+        time: document.getElementById('time').value,
+        runtime: document.getElementById('runtime').value,
+        price: document.getElementById('price').value,
+        ageLimit: document.getElementById('ageLimit').value,
+        description: document.getElementById('description').value,
+        posterUrl: document.getElementById('posterUrl').value.trim(),
+        trailerUrl: document.getElementById('trailerUrl').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/movies', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          cancelEditMovie();
+          showAlert('movieAlert', id ? 'Filmen har uppdaterats!' : 'Visningen har sparats och publicerats!', 'success');
+          loadMovies();
+        } else {
+          let msg = `Servern nekade anropet (Kod: ${res.status})`;
+          if (res.status === 401) msg = 'Sessionen har gått ut. Ladda om sidan och logga in igen.';
+          if (res.status === 500) msg = 'Internt serverfel: Kunde inte skriva till movies.json.';
+          showAlert('movieAlert', `<strong>Kunde inte spara:</strong> ${msg}`);
+        }
+      } catch (err) {
+        showAlert('movieAlert', '<strong>Nätverksfel:</strong> Kunde inte nå servern.');
+      }
+    }
+
+    async function deleteMovie(id) {
+      if (!confirm('Vill du ta bort denna visning?')) return;
+      clearAlert('movieAlert');
+      try {
+        const res = await fetch(`/api/movies/${id}/delete`, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          if (document.getElementById('movieId').value === String(id)) {
+            cancelEditMovie();
+          }
+          loadMovies();
+        } else {
+          showAlert('movieAlert', `Kunde inte ta bort filmen (Status: ${res.status}).`);
+        }
+      } catch (err) {
+        showAlert('movieAlert', 'Nätverksfel vid borttagning.');
+      }
+    }
+
+    // --- EVENT-FUNKTIONER ---
+    async function loadEvents() {
+      try {
+        const res = await fetch('/api/events');
+        if (!res.ok) throw new Error(`HTTP-kod ${res.status}`);
+        globalEvents = await res.json();
+        const container = document.getElementById('eventList');
+        container.innerHTML = '';
+
+        if (!Array.isArray(globalEvents) || globalEvents.length === 0) {
+          container.innerHTML = '<p style="color:#777;">Inga events inlagda.</p>';
+          return;
+        }
+
+        globalEvents.forEach(ev => {
+          const div = document.createElement('div');
+          div.className = 'list-item';
+          div.innerHTML = `
+            <div>
+              <strong>${ev.title}</strong><br>
+              <small style="color:#aaa;">${ev.date}${ev.time ? ' kl ' + ev.time : ''} ${ev.location ? '• ' + ev.location : ''}</small>
+            </div>
+            <div class="list-item-actions">
+              <button type="button" class="btn-blue" onclick="startEditEvent('${ev.id}')"><i class="fas fa-edit"></i> Redigera</button>
+              <button type="button" class="btn-gray" onclick="deleteEvent('${ev.id}')"><i class="fas fa-trash"></i></button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        document.getElementById('eventList').innerHTML = `<p style="color:#e50914;">Kunde inte ladda events: ${err.message}</p>`;
+      }
+    }
+
+    function startEditEvent(id) {
+      const ev = globalEvents.find(e => String(e.id) === String(id));
+      if (!ev) return;
+
+      clearAlert('eventAlert');
+      document.getElementById('eventId').value = ev.id;
+      document.getElementById('eventTitle').value = ev.title || '';
+      document.getElementById('eventDate').value = ev.date || '';
+      document.getElementById('eventTime').value = ev.time || '';
+      document.getElementById('eventLocation').value = ev.location || '';
+      document.getElementById('eventPrice').value = ev.price || '';
+      document.getElementById('eventDescription').value = ev.description || '';
+      document.getElementById('eventImageUrl').value = ev.imageUrl || '';
+      updatePreviewFromUrl(ev.imageUrl || '', 'eventPreview');
+
+      document.getElementById('eventFormHeading').textContent = `Redigera: ${ev.title}`;
+      document.getElementById('eventSubmitBtn').textContent = 'Spara ändringar';
+      document.getElementById('eventCancelBtn').style.display = 'block';
+
+      document.getElementById('eventForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function cancelEditEvent() {
+      document.getElementById('eventForm').reset();
+      document.getElementById('eventId').value = '';
+      document.getElementById('eventImageUrl').value = '';
+      document.getElementById('eventPreview').style.display = 'none';
+
+      document.getElementById('eventFormHeading').textContent = 'Lägg till kommande event';
+      document.getElementById('eventSubmitBtn').textContent = 'Publicera Event';
+      document.getElementById('eventCancelBtn').style.display = 'none';
+      clearAlert('eventAlert');
+    }
+
+    async function saveEvent(e) {
+      e.preventDefault();
+      clearAlert('eventAlert');
+
+      const id = document.getElementById('eventId').value;
+      const payload = {
+        id: id || undefined,
+        title: document.getElementById('eventTitle').value.trim(),
+        date: document.getElementById('eventDate').value,
+        time: document.getElementById('eventTime').value,
+        location: document.getElementById('eventLocation').value,
+        price: document.getElementById('eventPrice').value,
+        description: document.getElementById('eventDescription').value,
+        imageUrl: document.getElementById('eventImageUrl').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/events', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          cancelEditEvent();
+          showAlert('eventAlert', id ? 'Eventet har uppdaterats!' : 'Eventet har publicerats!', 'success');
+          loadEvents();
+        } else {
+          let msg = `Servern nekade anropet (Kod: ${res.status})`;
+          if (res.status === 401) msg = 'Sessionen har gått ut. Ladda om sidan och logga in igen.';
+          if (res.status === 500) msg = 'Internt serverfel: Kunde inte skriva till events.json.';
+          showAlert('eventAlert', `<strong>Kunde inte spara:</strong> ${msg}`);
+        }
+      } catch (err) {
+        showAlert('eventAlert', '<strong>Nätverksfel:</strong> Kunde inte nå servern.');
+      }
+    }
+
+    async function deleteEvent(id) {
+      if (!confirm('Vill du ta bort detta event?')) return;
+      clearAlert('eventAlert');
+      try {
+        const res = await fetch(`/api/events/${id}/delete`, {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          if (document.getElementById('eventId').value === String(id)) {
+            cancelEditEvent();
+          }
+          loadEvents();
+        } else {
+          const err = await res.json().catch(() => ({}));
+          const detail = err.message || `Status: ${res.status}`;
+          showAlert('eventAlert', `Kunde inte ta bort eventet (${detail}).`);
+        }
+      } catch (err) {
+        showAlert('eventAlert', 'Nätverksfel vid borttagning.');
+      }
+    }
+
+    // --- GALLERI-FUNKTIONER ---
+    async function loadGallery() {
+      const grid = document.getElementById('galleryGrid');
+      try {
+        const res = await fetch('/api/gallery');
+        const images = await res.json();
+        grid.innerHTML = '';
+
+        if (!Array.isArray(images) || images.length === 0) {
+          grid.innerHTML = '<p style="color:#777; grid-column: 1/-1;">Inga bilder finns i lokalgalleriet ännu.</p>';
+          return;
+        }
+
+        images.forEach(filename => {
+          const card = document.createElement('div');
+          card.className = 'gallery-admin-card';
+          card.dataset.filename = filename;
+          card.innerHTML = `
+            <img src="assets/gallery/${filename}" class="gallery-admin-img" alt="${filename}">
+            <div class="gallery-admin-footer">
+              <span class="gallery-drag-handle" title="Dra för att ändra ordning"><i class="fas fa-grip-vertical"></i></span>
+              <span class="gallery-admin-filename" title="${filename}">${filename}</span>
+              <button type="button" class="btn-gray" title="Ta bort bild" onclick="deleteGalleryImage('${filename}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        // Initiera eller uppdatera SortableJS
+        if (sortableGalleryInstance) {
+          sortableGalleryInstance.destroy();
+        }
+
+        sortableGalleryInstance = new Sortable(grid, {
+          animation: 150,
+          ghostClass: 'sortable-ghost',
+          chosenClass: 'sortable-chosen',
+          onEnd: async function () {
+            const cards = grid.querySelectorAll('.gallery-admin-card');
+            const orderedFilenames = Array.from(cards).map(c => c.dataset.filename);
+
+            try {
+              const res = await fetch('/api/gallery/reorder', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify({ order: orderedFilenames })
+              });
+
+              if (!res.ok) throw new Error(`Status ${res.status}`);
+            } catch (err) {
+              showAlert('galleryAlert', `Kunde inte spara ordningen: ${err.message}`);
+            }
+          }
+        });
+
+      } catch (err) {
+        grid.innerHTML = `<p style="color:#e50914; grid-column: 1/-1;">Kunde inte ladda galleriet: ${err.message}</p>`;
+      }
+    }
+
+    async function handleGalleryUpload(files) {
+      if (!files || files.length === 0) return;
+      clearAlert('galleryAlert');
+      const status = document.getElementById('galleryUploadStatus');
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.type.startsWith('image/')) continue;
+
+        status.textContent = `Laddar upp bild ${i + 1} av ${files.length}...`;
+
+        await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = async () => {
+            try {
+              const res = await fetch('/api/gallery/upload', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                  imageBase64: reader.result,
+                  fileName: file.name
+                })
+              });
+
+              if (!res.ok) throw new Error(`Status ${res.status}`);
+            } catch (err) {
+              showAlert('galleryAlert', `Kunde inte ladda upp ${file.name}: ${err.message}`);
+            }
+            resolve();
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      status.textContent = 'Uppladdning klar!';
+      showAlert('galleryAlert', 'Galleriet har uppdaterats!', 'success');
+      loadGallery();
+      document.getElementById('galleryFileInput').value = '';
+    }
+
+    async function deleteGalleryImage(filename) {
+      if (!confirm(`Är du säker på att du vill ta bort bilden "${filename}" från galleriet?`)) return;
+      clearAlert('galleryAlert');
+
+      try {
+        const res = await fetch(`/api/gallery/${encodeURIComponent(filename)}/delete`, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          showAlert('galleryAlert', 'Bilden har tagits bort från galleriet.', 'success');
+          loadGallery();
+        } else {
+          showAlert('galleryAlert', `Kunde inte radera bilden (Status: ${res.status}).`);
+        }
+      } catch (err) {
+        showAlert('galleryAlert', 'Nätverksfel vid radering av bild.');
+      }
+    }
+
+    loadMovies();
+    loadEvents();
+  </script>
+</body>
+</html>

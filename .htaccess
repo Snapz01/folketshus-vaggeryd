@@ -1,0 +1,29 @@
+RewriteEngine On
+
+# 0. Tvinga HTTPS före allt annat
+RewriteCond %{HTTP_HOST} ^www\.folketshusvaggeryd\.se$ [NC]
+RewriteRule ^(.*)$ https://folketshusvaggeryd.se/$1 [R=301,L]
+
+# 1. Tvinga bort index.html från adressfältet (301 redirect till /)
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://folketshusvaggeryd.se/$1 [R=301,L]
+
+# 2. Ta bort .html externt om besökaren skriver det i adressfältet
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.html\ HTTP/ [NC]
+RewriteRule ^([^.]+)\.html$ /$1 [R=301,L]
+
+# 3. Om filen eller mappen finns på disken (css, js, bilder, direkta html-filer), serva direkt
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.html\ HTTP/ [NC]
+RewriteRule ^([^.]+)\.html$ /$1 [R=301,L]
+
+# 4. Allt annat (rena URL:er som /about, /event, /lokal samt /api och /admin) skickas till Express
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 5. Allt annat (rena URL:er samt /api och /admin) skickas till Express via proxy
+RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
+
+<IfModule mod_security2.c>
+  SecRuleEngine Off
+</IfModule>
